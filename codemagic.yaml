@@ -18,9 +18,11 @@ workflows:
       - name: Set up provisioning profiles
         script: xcode-project use-profiles
       
-      - name: Fix missing Unity headers
+      - name: Fix missing Unity files
         script: |
           mkdir -p Classes/PluginBase UnityFramework
+          
+          # Header files
           touch Classes/PluginBase/LifeCycleListener.h
           touch Classes/PluginBase/RenderPluginDelegate.h
           touch Classes/PluginBase/UnityViewControllerListener.h
@@ -29,6 +31,35 @@ workflows:
           touch Classes/RedefinePlatforms.h
           touch Classes/UndefinePlatforms.h
           touch UnityFramework/UnityFramework.h
+          
+          # PCH file
+          touch Classes/Prefix.pch
+          
+          # Plist files
+          echo '<?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>CFBundleDevelopmentRegion</key>
+              <string>en</string>
+              <key>CFBundleExecutable</key>
+              <string>UnityFramework</string>
+              <key>CFBundleIdentifier</key>
+              <string>com.Zeus-Legacy.Zeus-Legacy</string>
+              <key>CFBundleInfoDictionaryVersion</key>
+              <string>6.0</string>
+              <key>CFBundleName</key>
+              <string>UnityFramework</string>
+              <key>CFBundlePackageType</key>
+              <string>FMWK</string>
+              <key>CFBundleShortVersionString</key>
+              <string>1.0</string>
+              <key>CFBundleVersion</key>
+              <string>1</string>
+          </dict>
+          </plist>' > UnityFramework/Info.plist
+          
+          echo '{}' > UnityFramework/PrivacyInfo.xcprivacy
       
       - name: Increment build number
         script: |

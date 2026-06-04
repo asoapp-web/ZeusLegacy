@@ -13,7 +13,7 @@ workflows:
         BUNDLE_ID: "com.Zeus-Legacy.Zeus-Legacy"
         XCODE_SCHEME: "Unity-iPhone"
         APP_STORE_APPLE_ID: 6771004417
-      xcode: 15.4
+      xcode: latest
     scripts:
       - name: Set up provisioning profiles
         script: xcode-project use-profiles

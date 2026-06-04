@@ -24,6 +24,7 @@ workflows:
           touch Classes/PluginBase/LifeCycleListener.h
           touch Classes/PluginBase/RenderPluginDelegate.h
           touch Classes/PluginBase/UnityViewControllerListener.h
+          touch Classes/PluginBase/AppDelegateListener.h
           touch Classes/UnityAppController.h
           touch Classes/RedefinePlatforms.h
           touch Classes/UndefinePlatforms.h
@@ -31,18 +32,17 @@ workflows:
       
       - name: Increment build number
         script: |
+          cd "$CM_BUILD_DIR"
           LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
           agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
       
-      - name: Build IPA
+      - name: Build ipa for distribution
         script: |
           xcode-project build-ipa \
             --project "Unity-iPhone.xcodeproj" \
             --scheme "$XCODE_SCHEME"
-    
     artifacts:
       - build/ios/ipa/*.ipa
-    
     publishing:
       app_store_connect:
         auth: integration
